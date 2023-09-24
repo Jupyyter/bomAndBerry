@@ -11,11 +11,12 @@ var originalRotation:float=self.rotation_degrees
 @onready var animationPlayer =$AnimationPlayer
 @onready var collisionshape2D =$CollisionShape2D
 @onready var sprite2D =$Sprite2D
-@onready var time =$Timer
-var timer = Time.get_ticks_msec()
-# Called when the node enters the scene tree for the first time.
+@onready var rotationDelay =$Timer
+var bulletDelay:int = Time.get_ticks_msec()
+
+
 func _ready():
-	time.stop()
+	rotationDelay.stop()
 
 
 func _process(delta):
@@ -23,15 +24,15 @@ func _process(delta):
 		shooting=true
 	else:
 		shooting=false
-	if Input.is_action_pressed("mouseLeft") && Time.get_ticks_msec() - timer >= fireRate:
-		var mouse_position = get_viewport().get_mouse_position()
-		var bullet = preload("res://scenes/bullet.tscn").instantiate()
+	if Input.is_action_pressed("mouseLeft") && Time.get_ticks_msec() - bulletDelay >= fireRate:
+		var mouse_position:Vector2 = get_viewport().get_mouse_position()
+		var bullet:Node = preload("res://scenes/bullet.tscn").instantiate()
 		bullet.position.x = self.position.x + self.get_node("CollisionShape2D").get_shape().get_rect().size.x + bullet.get_node("CollisionShape2D").get_shape().get_rect().size.x
 		bullet.position.y = self.position.y + self.get_node("CollisionShape2D").get_shape().get_rect().size.y/2
 		bullet.velocity = (mouse_position - bullet.position).normalized() * 10
 		bullet.rotation = atan(bullet.velocity.y/bullet.velocity.x)
 		get_tree().get_root().add_child(bullet)
-		timer = Time.get_ticks_msec()
+		bulletDelay = Time.get_ticks_msec()
 	get_input()
 
 func _physics_process(delta):
@@ -43,13 +44,13 @@ func get_input()->void:
 	
 	#rotate player when moving
 	if velocity!=Vector2.ZERO:
-		if time.is_stopped():
+		if rotationDelay.is_stopped():
 			rotate*=-1
 			self.rotation_degrees=originalRotation+10*rotate
-			time.start()
+			rotationDelay.start()
 	else:
 		self.rotation_degrees=originalRotation
-		time.stop()
+		rotationDelay.stop()
 		
 	#get the direction vector from the character to the cursor
 	var direction:Vector2 = (get_global_mouse_position() - global_position).normalized()
