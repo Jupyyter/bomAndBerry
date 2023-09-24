@@ -1,11 +1,15 @@
-extends RigidBody2D
+extends CharacterBody2D
 
-
+var windsize = Rect2(0,0,DisplayServer.window_get_size().x, DisplayServer.window_get_size().y)
+var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	linear_velocity = Vector2(1000, 0).rotated(rotation)
+	self.velocity.y += rng.randf_range(-0.8, 0.8)
 
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	self.position += self.velocity
+	if !windsize.has_point(self.position):
+		self.queue_free()

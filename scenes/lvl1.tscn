@@ -1,8 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://hk80gvusiqaq"]
+[gd_scene load_steps=3 format=3 uid="uid://hk80gvusiqaq"]
 
 [ext_resource type="PackedScene" uid="uid://bjslxs2nfkoew" path="res://scenes/player.tscn" id="1_02k21"]
+[ext_resource type="Script" path="res://scenes/score.gd" id="2_wgkhn"]
 
 [node name="lvl1" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_02k21")]
 position = Vector2(280, 180)
+
+[node name="score" type="Label" parent="."]
+offset_left = 21.0
+offset_top = 22.0
+offset_right = 47.0
+offset_bottom = 54.0
+text = "0"
+script = ExtResource("2_wgkhn")

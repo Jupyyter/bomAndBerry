@@ -6,17 +6,32 @@ var speed:int=200
 var shooting:bool=false #used to determine when to switch to shooting sprites
 var flipped:bool=false #if the character is flipped
 var rotate:int=1
+var fireRate:int=100
 var originalRotation:float=self.rotation_degrees
 @onready var animationPlayer =$AnimationPlayer
 @onready var collisionshape2D =$CollisionShape2D
 @onready var sprite2D =$Sprite2D
 @onready var time =$Timer
+var timer = Time.get_ticks_msec()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	time.stop()
 
 
 func _process(delta):
+	if Input.is_action_pressed("mouseLeft"):
+		shooting=true
+	else:
+		shooting=false
+	if Input.is_action_pressed("mouseLeft") && Time.get_ticks_msec() - timer >= fireRate:
+		var mouse_position = get_viewport().get_mouse_position()
+		var bullet = preload("res://scenes/bullet.tscn").instantiate()
+		bullet.position.x = self.position.x + self.get_node("CollisionShape2D").get_shape().get_rect().size.x + bullet.get_node("CollisionShape2D").get_shape().get_rect().size.x
+		bullet.position.y = self.position.y + self.get_node("CollisionShape2D").get_shape().get_rect().size.y/2
+		bullet.velocity = (mouse_position - bullet.position).normalized() * 10
+		bullet.rotation = atan(bullet.velocity.y/bullet.velocity.x)
+		get_tree().get_root().add_child(bullet)
+		timer = Time.get_ticks_msec()
 	get_input()
 
 func _physics_process(delta):
@@ -35,11 +50,6 @@ func get_input()->void:
 	else:
 		self.rotation_degrees=originalRotation
 		time.stop()
-
-	if Input.is_action_pressed("mouseLeft"):
-		shooting=true
-	else:
-		shooting=false
 		
 	#get the direction vector from the character to the cursor
 	var direction:Vector2 = (get_global_mouse_position() - global_position).normalized()

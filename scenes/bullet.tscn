@@ -6,7 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a30k3"]
 size = Vector2(34, 6)
 
-[node name="bullet" type="RigidBody2D"]
+[node name="bullet" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_0tb3t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
