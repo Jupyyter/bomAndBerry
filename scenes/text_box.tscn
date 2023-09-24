@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvxgi874iagbp"]
+
+[ext_resource type="Script" path="res://src/textBox.gd" id="1_csfmo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jp88q"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="textBox" type="CanvasLayer" node_paths=PackedStringArray("textureRect", "textbox_container", "start_symbol", "end_symbol", "label", "boxContainer")]
+script = ExtResource("1_csfmo")
+textureRect = NodePath("TextboxContainer/MarginContainer/HBoxContainer/TextureRect")
+textbox_container = NodePath("TextboxContainer")
+start_symbol = NodePath("TextboxContainer/MarginContainer/HBoxContainer/start")
+end_symbol = NodePath("TextboxContainer/MarginContainer/HBoxContainer/end")
+label = NodePath("TextboxContainer/MarginContainer/HBoxContainer/Label")
+boxContainer = NodePath("TextboxContainer/MarginContainer/HBoxContainer")
+
+[node name="TextboxContainer" type="MarginContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="TextboxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jp88q")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextboxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="TextboxContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextboxContainer/MarginContainer"]
+texture_filter = 1
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+texture_filter = 1
+layout_direction = 2
+layout_mode = 2
+
+[node name="start" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "*"
+
+[node name="Label" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+autowrap_mode = 2
+text_direction = 1
+
+[node name="end" type="Label" parent="TextboxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = ":)"
