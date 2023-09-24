@@ -1,19 +1,73 @@
-[gd_scene load_steps=4 format=3 uid="uid://ck68juuy6p22x"]
+[gd_scene load_steps=11 format=3 uid="uid://ck68juuy6p22x"]
 
 [ext_resource type="Script" path="res://src/bullet.gd" id="1_0tb3t"]
-[ext_resource type="Texture2D" uid="uid://b0kp3cvcbtrq6" path="res://images/bullet.png" id="1_6ldj7"]
+[ext_resource type="Texture2D" uid="uid://f0evmqqjx3pq" path="res://images/HappyBullet.png" id="2_p32fv"]
+[ext_resource type="Texture2D" uid="uid://d2sc3eenodky" path="res://images/HappyEnd1-Sheet.png" id="3_ppcay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a30k3"]
-size = Vector2(34, 6)
+size = Vector2(25, 6)
 
-[node name="bullet" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyx41"]
+atlas = ExtResource("3_ppcay")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tij3"]
+atlas = ExtResource("3_ppcay")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66biv"]
+atlas = ExtResource("3_ppcay")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1qki"]
+atlas = ExtResource("3_ppcay")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkfsp"]
+atlas = ExtResource("3_ppcay")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t0mct"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyx41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tij3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66biv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1qki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkfsp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="bullet" type="CharacterBody2D" node_paths=PackedStringArray("animatedSprite")]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_0tb3t")
+animatedSprite = NodePath("hit")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
-texture = ExtResource("1_6ldj7")
+position = Vector2(13, 0)
+texture = ExtResource("2_p32fv")
+flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12.5, 0)
 shape = SubResource("RectangleShape2D_a30k3")
+
+[node name="hit" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+position = Vector2(22, 0)
+sprite_frames = SubResource("SpriteFrames_t0mct")

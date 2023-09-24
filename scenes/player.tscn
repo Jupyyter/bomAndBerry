@@ -112,12 +112,16 @@ _data = {
 "upShoot": SubResource("Animation_rpv3y")
 }
 
-[node name="player" type="CharacterBody2D" groups=["player"]]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("bulletSwpawnCoords", "shootUp", "shootRight", "shootDown") groups=["player"]]
 z_index = 1
 z_as_relative = false
 y_sort_enabled = true
 scale = Vector2(3, 3)
 script = ExtResource("1_r4nhh")
+bulletSwpawnCoords = NodePath("spawnBulletCoords")
+shootUp = NodePath("spawnBulletCoords/up")
+shootRight = NodePath("spawnBulletCoords/right")
+shootDown = NodePath("spawnBulletCoords/down")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1
@@ -127,7 +131,7 @@ texture = ExtResource("2_nukrs")
 offset = Vector2(0, -32)
 hframes = 3
 vframes = 2
-frame = 1
+frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.83333, -3)
@@ -141,5 +145,16 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.17
+
+[node name="spawnBulletCoords" type="Node2D" parent="."]
+
+[node name="up" type="Node2D" parent="spawnBulletCoords"]
+position = Vector2(8.66667, -26.6667)
+
+[node name="right" type="Node2D" parent="spawnBulletCoords"]
+position = Vector2(35.3333, -25.6667)
+
+[node name="down" type="Node2D" parent="spawnBulletCoords"]
+position = Vector2(9.33333, -6.33333)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
